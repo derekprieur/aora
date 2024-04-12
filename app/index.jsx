@@ -8,11 +8,11 @@ export default function App() {
             <Text className='font-pblack text-3xl'>Aora!</Text>
             <StatusBar style="auto" />
             <Link
-                href='/profile'
+                href='/home'
                 style={{
                     color: 'blue',
                 }}
-            >Go to Profile</Link>
+            >Go to Home</Link>
         </View>
     );
 }
