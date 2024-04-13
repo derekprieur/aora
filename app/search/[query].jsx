@@ -1,18 +1,16 @@
-import { Alert, FlatList, Image, RefreshControl, Text, View } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import { FlatList, Text, View } from 'react-native'
+import React, { useEffect, } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { images } from '../../constants'
 import SearchInput from '../../components/SearchInput'
-import Trending from '../../components/Trending'
 import EmptyState from '../../components/EmptyState'
-import { getAllPosts, getLatestPosts, searchPosts } from '../../lib/appwrite'
+import { searchPosts } from '../../lib/appwrite'
 import useAppwrite from '../../lib/useAppwrite'
 import VideoCard from '../../components/VideoCard'
 import { useLocalSearchParams } from 'expo-router'
 
 const Search = () => {
     const { query } = useLocalSearchParams()
-    const { data: posts, refetch } = useAppwrite(searchPosts(query))
+    const { data: posts, refetch } = useAppwrite(() => searchPosts(query))
 
     useEffect(() => {
         refetch()
@@ -21,11 +19,7 @@ const Search = () => {
     return (
         <SafeAreaView className='bg-primary h-full'>
             <FlatList
-                data={[
-                    { id: 1 },
-                    { id: 2 },
-                    { id: 3 },
-                ]}
+                data={posts}
                 keyExtractor={(item) => item.$id}
                 renderItem={({ item }) => (
                     <VideoCard
