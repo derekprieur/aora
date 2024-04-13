@@ -5,11 +5,13 @@ import { images } from '../../constants'
 import FormField from '../../components/FormField'
 import CustomButton from '../../components/CustomButton'
 import { Link, router } from 'expo-router'
-import { signIn } from '../../lib/appwrite'
+import { getCurrentUser, signIn } from '../../lib/appwrite'
+import { useGlobalContext } from '../../context/GlobalProvider'
 
 const SignIn = () => {
     const [form, setForm] = useState({ email: '', password: '' })
     const [isSubmitting, setIsSubmitting] = useState(false)
+    const { user, setUser, setIsLoggedIn } = useGlobalContext()
 
     const submit = async () => {
         if (!form.email || !form.password) {
@@ -20,7 +22,9 @@ const SignIn = () => {
             setIsSubmitting(true)
             await signIn(form.email, form.password)
 
-            // Set to global state
+            const result = await getCurrentUser()
+            setUser(result)
+            setIsLoggedIn(true)
 
             router.replace('/home')
         } catch (error) {

@@ -1,19 +1,24 @@
 import { FlatList, Text, TouchableOpacity, View, Image } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import SearchInput from '../../components/SearchInput'
 import EmptyState from '../../components/EmptyState'
-import { getUserPosts } from '../../lib/appwrite'
+import { getUserPosts, signOut } from '../../lib/appwrite'
 import useAppwrite from '../../lib/useAppwrite'
 import VideoCard from '../../components/VideoCard'
 import { useGlobalContext } from '../../context/GlobalProvider'
 import { icons } from '../../constants'
 import InfoBox from '../../components/InfoBox'
+import { router } from 'expo-router'
 
 const Profile = () => {
     const { user, setUser, setIsLoggedIn } = useGlobalContext()
     const { data: posts, refetch } = useAppwrite(() => getUserPosts(user.$id))
 
-    const logout = () => { }
+    const logout = async () => {
+        await signOut()
+        setUser(null)
+        setIsLoggedIn(false)
+        router.replace('/sign-in')
+    }
 
     return (
         <SafeAreaView className='bg-primary h-full'>
