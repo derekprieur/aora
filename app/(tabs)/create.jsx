@@ -21,6 +21,7 @@ const Create = () => {
     })
 
     const submit = async () => {
+        console.log('form', form)
         if (!form.prompt || !form.title || !form.video || !form.thumbnail) {
             return Alert.alert('Please fill in all the fields')
         }
@@ -28,6 +29,7 @@ const Create = () => {
         setUploading(true)
 
         try {
+            console.log('user', user)
             await createVideo({
                 ...form,
                 userId: user.$id
